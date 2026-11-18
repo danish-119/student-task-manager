@@ -77,9 +77,16 @@ def handle_complete(tasks):
 
 
 def handle_delete(tasks):
-    task_id = int(input("Task id to delete: "))
-    delete_task(tasks, task_id)
-    print("Done.")
+    raw_id = input("Task id to delete: ").strip()
+    if not raw_id.isdigit():
+        print("Could not delete task: the id must be a positive number.")
+        return
+    try:
+        task = delete_task(tasks, int(raw_id))
+    except ValueError as error:
+        print(f"Could not delete task: {error}")
+        return
+    print(f"Deleted task {task['id']}: {task['title']}")
 
 
 MENU = """
