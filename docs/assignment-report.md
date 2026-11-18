@@ -100,9 +100,3 @@ Successful run: https://github.com/danish-119/student-task-manager/actions/runs/
 - `README.md` lists features, setup, usage and test instructions.
 - `docs/user-guide.md` is a short user guide.
 - GitHub Release `v1.0.0` was created with release notes.
-
-## Note on the screenshots
-
-The images above are renderings of the real terminal output (`git` and `gh` commands)
-captured while doing the assignment. The GitHub web pages for the same runs, pull
-requests and issues are linked in this report.
