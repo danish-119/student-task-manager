@@ -79,9 +79,13 @@ def handle_add(tasks):
 
 
 def handle_complete(tasks):
-    task_id = int(input("Task id to complete: "))
-    complete_task(tasks, task_id)
-    print("Done.")
+    try:
+        task_id = int(input("Task id to complete: "))
+        task = complete_task(tasks, task_id)
+    except ValueError as error:
+        print(f"Could not complete task: {error}")
+        return
+    print(f"Completed task {task['id']}: {task['title']}")
 
 
 def handle_delete(tasks):
