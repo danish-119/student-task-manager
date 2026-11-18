@@ -79,11 +79,14 @@ def complete_task(tasks, task_id):
 
 
 def delete_task(tasks, task_id):
-    """Delete the task with the given id."""
+    """Delete the task with the given id and return it.
+
+    Raises ValueError if no task has that id; the list is left unchanged.
+    """
     for index, task in enumerate(tasks):
         if task["id"] == task_id:
             return tasks.pop(index)
-    return None
+    raise ValueError(f"Cannot delete: no task found with id {task_id}.")
 
 
 def handle_add(tasks):
@@ -107,9 +110,16 @@ def handle_complete(tasks):
 
 
 def handle_delete(tasks):
-    task_id = int(input("Task id to delete: "))
-    delete_task(tasks, task_id)
-    print("Done.")
+    raw_id = input("Task id to delete: ").strip()
+    if not raw_id.isdigit():
+        print("Could not delete task: the id must be a positive number.")
+        return
+    try:
+        task = delete_task(tasks, int(raw_id))
+    except ValueError as error:
+        print(f"Could not delete task: {error}")
+        return
+    print(f"Deleted task {task['id']}: {task['title']}")
 
 
 MENU = """
