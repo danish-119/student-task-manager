@@ -58,13 +58,24 @@ def display_tasks(tasks):
         print(f"{task['id']:<4} {status:<8} {task['title']}")
 
 
-def complete_task(tasks, task_id):
-    """Mark the task with the given id as completed."""
+def find_task(tasks, task_id):
+    """Return the task with the given id or raise ValueError."""
     for task in tasks:
         if task["id"] == task_id:
-            task["completed"] = True
             return task
-    return None
+    raise ValueError(f"No task found with id {task_id}.")
+
+
+def complete_task(tasks, task_id):
+    """Mark the selected task as completed and return it.
+
+    Raises ValueError if the id is unknown or the task is already completed.
+    """
+    task = find_task(tasks, task_id)
+    if task["completed"]:
+        raise ValueError(f"Task {task_id} is already completed.")
+    task["completed"] = True
+    return task
 
 
 def delete_task(tasks, task_id):
@@ -86,9 +97,13 @@ def handle_add(tasks):
 
 
 def handle_complete(tasks):
-    task_id = int(input("Task id to complete: "))
-    complete_task(tasks, task_id)
-    print("Done.")
+    try:
+        task_id = int(input("Task id to complete: "))
+        task = complete_task(tasks, task_id)
+    except ValueError as error:
+        print(f"Could not complete task: {error}")
+        return
+    print(f"Completed task {task['id']}: {task['title']}")
 
 
 def handle_delete(tasks):
