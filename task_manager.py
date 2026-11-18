@@ -25,8 +25,22 @@ def next_id(tasks):
     return max((task["id"] for task in tasks), default=0) + 1
 
 
+MAX_TITLE_LENGTH = 100
+
+
+def validate_title(title):
+    """Return a cleaned title or raise ValueError if it is not acceptable."""
+    if not isinstance(title, str) or not title.strip():
+        raise ValueError("Task title cannot be empty.")
+    title = title.strip()
+    if len(title) > MAX_TITLE_LENGTH:
+        raise ValueError(f"Task title cannot be longer than {MAX_TITLE_LENGTH} characters.")
+    return title
+
+
 def add_task(tasks, title):
-    """Add a new task and return it."""
+    """Add a new task and return it. Empty titles are rejected."""
+    title = validate_title(title)
     task = {"id": next_id(tasks), "title": title, "completed": False}
     tasks.append(task)
     return task
@@ -63,8 +77,12 @@ def delete_task(tasks, task_id):
 
 def handle_add(tasks):
     title = input("Task title: ")
-    task = add_task(tasks, title)
-    print(f"Added task {task['id']}.")
+    try:
+        task = add_task(tasks, title)
+    except ValueError as error:
+        print(f"Could not add task: {error}")
+        return
+    print(f"Added task {task['id']}: {task['title']}")
 
 
 def handle_complete(tasks):
