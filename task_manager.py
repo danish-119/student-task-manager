@@ -30,3 +30,15 @@ def add_task(tasks, title):
     task = {"id": next_id(tasks), "title": title, "completed": False}
     tasks.append(task)
     return task
+
+
+def display_tasks(tasks):
+    """Print all tasks in a simple table."""
+    if not tasks:
+        print("No tasks yet.")
+        return
+    print(f"{'ID':<4} {'Status':<8} Title")
+    print("-" * 40)
+    for task in tasks:
+        status = "[x]" if task["completed"] else "[ ]"
+        print(f"{task['id']:<4} {status:<8} {task['title']}")
