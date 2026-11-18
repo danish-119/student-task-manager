@@ -42,3 +42,20 @@ def display_tasks(tasks):
     for task in tasks:
         status = "[x]" if task["completed"] else "[ ]"
         print(f"{task['id']:<4} {status:<8} {task['title']}")
+
+
+def complete_task(tasks, task_id):
+    """Mark the task with the given id as completed."""
+    for task in tasks:
+        if task["id"] == task_id:
+            task["completed"] = True
+            return task
+    return None
+
+
+def delete_task(tasks, task_id):
+    """Delete the task with the given id."""
+    for index, task in enumerate(tasks):
+        if task["id"] == task_id:
+            return tasks.pop(index)
+    return None
