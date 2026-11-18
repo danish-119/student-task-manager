@@ -59,3 +59,57 @@ def delete_task(tasks, task_id):
         if task["id"] == task_id:
             return tasks.pop(index)
     return None
+
+
+def handle_add(tasks):
+    title = input("Task title: ")
+    task = add_task(tasks, title)
+    print(f"Added task {task['id']}.")
+
+
+def handle_complete(tasks):
+    task_id = int(input("Task id to complete: "))
+    complete_task(tasks, task_id)
+    print("Done.")
+
+
+def handle_delete(tasks):
+    task_id = int(input("Task id to delete: "))
+    delete_task(tasks, task_id)
+    print("Done.")
+
+
+MENU = """
+Student Task Manager
+1. Add task
+2. Show tasks
+3. Complete task
+4. Delete task
+5. Exit
+"""
+
+
+def main():
+    tasks = load_tasks()
+    while True:
+        print(MENU)
+        choice = input("Choose an option: ").strip()
+        if choice == "1":
+            handle_add(tasks)
+        elif choice == "2":
+            display_tasks(tasks)
+        elif choice == "3":
+            handle_complete(tasks)
+        elif choice == "4":
+            handle_delete(tasks)
+        elif choice == "5":
+            save_tasks(tasks)
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid option.")
+        save_tasks(tasks)
+
+
+if __name__ == "__main__":
+    main()
